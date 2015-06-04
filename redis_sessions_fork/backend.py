@@ -17,6 +17,8 @@ def keys(pattern):
 @prefix
 def get(key):
     value = connection.redis_server.get(key)
+    if value is None:
+        return value
 
     value = force_unicode(value)
 

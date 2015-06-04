@@ -45,7 +45,11 @@ class SessionStore(SessionBase):
     def save(self, must_create=False):
         session_key = self._get_or_create_session_key()
 
-        expire_in = self.get_expiry_age()
+        # figure out what the correct expiry logic is. presumably we
+        # shoud be picking this value up from redis when there's an
+        # entry, otherwise expire=None (which gets populated from
+        # settings by the Base)
+        expire_in = self.get_expiry_age(expiry=None)
 
         session_data = self.encode(self._get_session(no_load=must_create))
 
