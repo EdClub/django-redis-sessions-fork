@@ -6,7 +6,11 @@ from . import connection
 
 @prefix
 def expire(key):
-    return connection.redis_server.ttl(key)
+    ttl = connection.redis_server.ttl(key)
+    # key doesn't exist or doesn't have ttl set
+    if ttl in (-1, -2):
+        return None
+    return ttl
 
 
 @prefix
