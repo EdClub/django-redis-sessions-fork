@@ -274,3 +274,23 @@ def test_flush_orm_sessions():
     orm_session = Session.objects.all()
 
     assert orm_session.count() == 0
+
+
+def test_new_session_on_load_nonexistent():
+    session = session_module.SessionStore()
+    assert session.session_key is None
+
+    assert {} == session.load()
+
+    key = session.session_key
+    assert key is not None
+
+    session['foo'] = 'bar'
+    session.set_expiry(1)
+    session.save()
+
+    time.sleep(2)
+
+    assert {} == session.load()
+
+    assert session.session_key != key
