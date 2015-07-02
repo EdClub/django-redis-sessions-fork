@@ -11,6 +11,7 @@ from redis_sessions_fork.conf import settings, SessionRedisConf
 from redis_sessions_fork import utils, backend
 from redis_sessions_fork.connection import get_redis_server
 
+settings.MIDDLEWARE_CLASSES = []
 session_module = utils.import_module(settings.SESSION_ENGINE)
 session = session_module.SessionStore()
 
